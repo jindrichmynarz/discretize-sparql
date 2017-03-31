@@ -1,0 +1,23 @@
+PREFIX sio: <http://semanticscience.org/resource/SIO_>
+
+ASK
+WHERE {
+  VALUES (?value ?expectedInterval) {
+         (0      1)
+         (1000   2)
+         (7500   3)
+  }
+  VALUES (?min ?left      ?max  ?right     ?interval) {
+         (0    sio:001254 1000  sio:001252 1)
+         (1000 sio:001251 5000  sio:001253 2)
+         (5000 sio:001251 10000 sio:001253 3)
+  }
+  FILTER (((?value >= ?min && sameTerm(?left, sio:001254))
+           ||
+           (?value > ?min && sameTerm(?left, sio:001251)))
+           &&
+          ((?value <= ?max && sameTerm(?right, sio:001253))
+           ||
+           (?value < ?max && sameTerm(?right, sio:001252))))
+  FILTER (?interval != ?expectedInterval)
+}
