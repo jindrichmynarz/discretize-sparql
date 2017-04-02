@@ -9,7 +9,8 @@
             [clojure.tools.cli :refer [parse-opts]]
             [mount.core :as mount]
             [slingshot.slingshot :refer [try+]]
-            [sparclj.core :as sparql]))
+            [sparclj.core :as sparql]
+            [clojure.edn :as edn]))
 
 ; ----- Private functions -----
 
@@ -73,10 +74,14 @@
     :parse-fn io/as-file
     :validate [util/file-exists? "The SPARQL Update operation does not exist."]]
    ["-m" "--method METHOD" "Method of discretization to use."
-    :id ::spec/method]
-   ["-i" "--intervals INTERVALS" "Number of intervals to generate."
-    :id ::spec/intervals
+    :id ::spec/method
+    :parse-fn keyword]
+   ["-b" "--bins BINS" "Number of intervals to generate."
+    :id ::spec/bins
     :parse-fn util/->integer]
+   ["-s" "--min-support MIN_SUPPORT" "Minimum support for intervals"
+    :id ::spec/min-support
+    :parse-fn edn/read-string]
    ["-g" "--graph GRAPH" "IRI or URN of the named graph to which intervals will be loaded."
     :id ::spec/graph]
    ["-p" "--page-size PAGE_SIZE" "Number of results to fetch in one request."

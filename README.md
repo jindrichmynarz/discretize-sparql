@@ -2,6 +2,8 @@
 
 `discretize-sparql` is a command-line tool to discretize numeric values in RDF datasets via SPARQL Update operations. [Discretization](https://en.wikipedia.org/wiki/Discretization) converts continuous numeric values into discrete intervals. This is typically useful for data mining tools that operate on categorical data. For example, discretization is required for association rule mining with [EasyMiner](http://www.easyminer.eu), outlier detection with [FPM](https://github.com/jaroslav-kuchar/fpmoutliers), or tensor factorization with [RESCAL](https://github.com/mnick/rescal.py).
 
+This tool wraps the [EasyMiner-Discretization](https://github.com/KIZI/EasyMiner-Discretization) library.
+
 ## Usage
 
 Use a released executable or compile using [Leiningen](http://leiningen.org) and [lein-binplus](https://github.com/BrunoBonacci/lein-binplus):
@@ -23,8 +25,9 @@ The tool supports the following parameters:
 * `-e`, `--endpoint`: URL of the SPARQL endpoint to retrieve data from. The endpoint must allow SPARQL Update operations.
 * `-a`, `--auth`: Endpoint's authorization written as `username:password`. The tool currently support HTTP Digest authentication, which is used by Virtuoso.
 * `-u`, `--update`: Path to SPARQL Update operation. See more about this below.
-* `-m`, `--method`: Method of discretization to use.
-* `-i`, `--intervals`: Number of intervals to generate.
+* `-m`, `--method`: Method of discretization to use. The supported methods are `equidistance`, `equifrequency`, and `equisize`.
+* `-b`, `--bins`: Number of bins (intervals) to generate. Required for `equidistance` and `equifrequency` methods.
+* `-s`, `--min-support`: Minimum support required for a generated interval. Required for `equisize` method.
 * `-g`, `--graph`: IRI or URN of the named graph to which intervals will be loaded.
 * `-p`, `--page-size` (default = `10000`): Number of results to fetch in one request.
 * `--parallel` (default = `false`): Execute SPARQL queries in parallel.

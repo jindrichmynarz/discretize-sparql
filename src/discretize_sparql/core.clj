@@ -3,6 +3,7 @@
             [discretize-sparql.prefix :as prefix]
             [discretize-sparql.spec :as spec]
             [discretize-sparql.endpoint :refer [endpoint]]
+            [discretize-sparql.discretize :as discretize]
             [sparclj.core :as sparql]
             [slingshot.slingshot :refer [throw+]])
   (:import (org.apache.jena.update Update UpdateFactory)
@@ -235,17 +236,16 @@
 
 (defn discretize
   "Run discretization of values from a SPARQL endpoint."
-  [{::spec/keys [graph intervals method operation strict?]
+  [{::spec/keys [graph method operation strict?]
     ::sparql/keys [parallel?]
     :as config}]
   (let [parsed-operation (parse-update (slurp operation))]
     (validate-operation parsed-operation)
     (when (and strict? (not (all-values-numeric? parsed-operation)))
       (throw+ {:type ::util/not-all-values-numeric}))
-    ; TODO: Call the real discretization library
     (let [values (get-values parsed-operation ::sparql/parallel? parallel?)
-          intervals' (add-uuids (discretize-mock {:intervals intervals :method method} values))
-          update-intervals (get-update-to-intervals parsed-operation intervals')
-          insert-intervals (intervals->insert-data parsed-operation intervals' :graph graph)]
+          intervals (add-uuids (discretize/discretize config values))
+          update-intervals (get-update-to-intervals parsed-operation intervals)
+          insert-intervals (intervals->insert-data parsed-operation intervals :graph graph)]
       (sparql/update-operation endpoint update-intervals)
       (sparql/update-operation endpoint insert-intervals))))

@@ -17,7 +17,9 @@
                                                     javax.jms/jms
                                                     com.sun.jmdk/jmxtools
                                                     com.sun.jmx/jmxri]]
-                 [commons-validator/commons-validator "1.5.1"]]
+                 [commons-validator/commons-validator "1.5.1"]
+                 [com.github.KIZI/EasyMiner-Discretization "1.0.0"]]
+  :repositories [["jitpack" "https://jitpack.io"]]
   :main discretize-sparql.cli
   :profiles {:dev {:plugins [[lein-binplus "0.4.2"]]}
              :test {:resource-paths ["test/resources"]}

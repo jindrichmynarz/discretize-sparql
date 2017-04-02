@@ -1,6 +1,10 @@
 (ns discretize-sparql.util
   (:require [clojure.string :as string]))
 
+(defn ->double
+  [s]
+  (Double/parseDouble s))
+
 (defn ->integer
   [s]
   (Integer/parseInt s))
