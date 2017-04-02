@@ -21,7 +21,8 @@
                  [com.github.KIZI/EasyMiner-Discretization "1.0.0"]]
   :repositories [["jitpack" "https://jitpack.io"]]
   :main discretize-sparql.cli
-  :profiles {:dev {:plugins [[lein-binplus "0.4.2"]]}
+  :profiles {:dev {:dependencies [[org.clojure/test.check "0.9.0"]]
+                   :plugins [[lein-binplus "0.4.2"]]}
              :test {:resource-paths ["test/resources"]}
              :uberjar {:aot :all
                        :uberjar-name "discretize_sparql.jar"}}

@@ -1,6 +1,6 @@
 # discretize-sparql
 
-`discretize-sparql` is a command-line tool to discretize numeric values in RDF datasets via SPARQL Update operations. [Discretization](https://en.wikipedia.org/wiki/Discretization) converts continuous numeric values into discrete intervals. This is typically useful for data mining tools that operate on categorical data. For example, discretization is required for association rule mining with [EasyMiner](http://www.easyminer.eu), outlier detection with [FPM](https://github.com/jaroslav-kuchar/fpmoutliers), or tensor factorization with [RESCAL](https://github.com/mnick/rescal.py).
+`discretize-sparql` is a command-line tool to discretize numeric values in RDF datasets via SPARQL Update operations. [Discretization](https://en.wikipedia.org/wiki/Discretization) (also known as binning) converts continuous numeric values into discrete intervals. This is typically useful for data mining tools that operate on categorical data. For example, discretization is required for association rule mining with [EasyMiner](http://www.easyminer.eu), outlier detection with [FPM](https://github.com/jaroslav-kuchar/fpmoutliers), or tensor factorization with [RESCAL](https://github.com/mnick/rescal.py).
 
 This tool wraps the [EasyMiner-Discretization](https://github.com/KIZI/EasyMiner-Discretization) library.
 

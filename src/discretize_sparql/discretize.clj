@@ -12,6 +12,18 @@
   (reify SortedIterable
     (iterator [_] (.iterator coll))))
 
+(defmulti ->support
+  "Wrap minimum support in the appropriate class."
+  type)
+
+(defmethod ->support Double
+  [support]
+  (RelativeSupport. support))
+
+(defmethod ->support Integer
+  [support]
+  (AbsoluteSupport. support))
+
 (defmulti discretization-task
   "Construct discretization task as per the chosen `method`."
   (fn [{::spec/keys [method]}] method))
@@ -28,8 +40,9 @@
 
 (defmethod discretization-task :equisize
   [{::spec/keys [min-support]}]
-  (reify EquisizeDiscretizationTask
-    (getMinSupport [_] min-support)))
+  (let [support (->support min-support)]
+    (reify EquisizeDiscretizationTask
+      (getMinSupport [_] support))))
 
 (defn- interval->clj
   "Convert `interval` to Clojure data structure."
