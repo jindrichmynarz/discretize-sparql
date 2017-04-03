@@ -1,4 +1,4 @@
-(defproject discretize-sparql "0.1.0-SNAPSHOT"
+(defproject discretize-sparql "0.1.0"
   :description "Discretize numeric literals in RDF from a SPARQL endpoint"
   :url "http://github.com/jindrichmynarz/discretize-sparql"
   :license {:name "Eclipse Public License"
@@ -7,7 +7,7 @@
         :url "https://github.com/jindrichmynarz/discretize-sparql"}
   :dependencies [[org.clojure/clojure "1.9.0-alpha14"]
                  [org.clojure/tools.cli "0.3.5"]
-                 [sparclj "0.1.6"]
+                 [sparclj "0.1.7"]
                  [mount "0.1.11"]
                  [slingshot "0.12.2"]
                  [org.apache.jena/jena-core "3.1.1"]
