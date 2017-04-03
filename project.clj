@@ -18,7 +18,7 @@
                                                     com.sun.jmdk/jmxtools
                                                     com.sun.jmx/jmxri]]
                  [commons-validator/commons-validator "1.5.1"]
-                 [com.github.KIZI/EasyMiner-Discretization "1.0.0"]]
+                 [com.github.KIZI/EasyMiner-Discretization "1.0.1"]]
   :repositories [["jitpack" "https://jitpack.io"]]
   :main discretize-sparql.cli
   :profiles {:dev {:dependencies [[org.clojure/test.check "0.9.0"]]

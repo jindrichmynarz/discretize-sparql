@@ -35,10 +35,10 @@
 
 ; ----- Private functions -----
 
-(defn- ->double
-  "Convert `number` to a xsd:double literal."
+(defn- ->decimal
+  "Convert `number` to a xsd:decimal literal."
   [number]
-  (NodeFactory/createLiteralByValue number XSDDatatype/XSDdouble))
+  (NodeFactory/createLiteral (str number) XSDDatatype/XSDdecimal))
 
 (defn- uuid
   "Generate a UUID URN."
@@ -164,9 +164,9 @@
     (doseq [{[min-value max-value] :interval
              :as interval} intervals]
       (.add values (doto (BindingHashMap.)
-                     (.add min-var (->double min-value))
+                     (.add min-var (->decimal min-value))
                      (.add left (if (:left-closed interval) left-closed left-open))
-                     (.add max-var (->double max-value))
+                     (.add max-var (->decimal max-value))
                      (.add right (if (:right-closed interval) right-closed right-open))
                      (.add interval-var (uuid)))))
     values))
@@ -219,8 +219,8 @@
                 [(type-quad (prefix/schema "QuantitativeValue"))
                  (type-quad left-type)
                  (type-quad right-type)
-                 (quad (prefix/schema "minValue") (->double min-value))
-                 (quad (prefix/schema "maxValue") (->double max-value))])]
+                 (quad (prefix/schema "minValue") (->decimal min-value))
+                 (quad (prefix/schema "maxValue") (->decimal max-value))])]
     (->> quads
          (apply concat)
          (QuadDataAcc.)

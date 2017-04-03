@@ -6,6 +6,9 @@
                                              EquifrequencyDiscretizationTask
                                              EquisizeDiscretizationTask)))
 
+(def ^:private default-buffer-size
+  1000000)
+
 (defn- ->sorted-iterator
   "Mark collection `coll` as sorted."
   [coll]
@@ -31,18 +34,21 @@
 (defmethod discretization-task :equidistance
   [{::spec/keys [bins]}]
   (reify EquidistanceDiscretizationTask
-    (getNumberOfBins [_] bins)))
+    (getNumberOfBins [_] bins)
+    (getBufferSize [_] default-buffer-size)))
 
 (defmethod discretization-task :equifrequency
   [{::spec/keys [bins]}]
   (reify EquifrequencyDiscretizationTask
-    (getNumberOfBins [_] bins)))
+    (getNumberOfBins [_] bins)
+    (getBufferSize [_] default-buffer-size)))
 
 (defmethod discretization-task :equisize
   [{::spec/keys [min-support]}]
   (let [support (->support min-support)]
     (reify EquisizeDiscretizationTask
-      (getMinSupport [_] support))))
+      (getMinSupport [_] support)
+      (getBufferSize [_] default-buffer-size))))
 
 (defn- interval->clj
   "Convert `interval` to Clojure data structure."

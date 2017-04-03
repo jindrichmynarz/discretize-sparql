@@ -25,7 +25,7 @@ The tool supports the following parameters:
 * `-e`, `--endpoint`: URL of the SPARQL endpoint to retrieve data from. The endpoint must allow SPARQL Update operations.
 * `-a`, `--auth`: Endpoint's authorization written as `username:password`. The tool currently support HTTP Digest authentication, which is used by Virtuoso.
 * `-u`, `--update`: Path to SPARQL Update operation. See more about this below.
-* `-m`, `--method`: Method of discretization to use. The supported methods are `equidistance`, `equifrequency`, and `equisize`.
+* `-m`, `--method`: Method of discretization to use. The supported methods are `equidistance`, `equifrequency`, and `equisize`. Equidistant discretization creates intervals of the same size. Equifrequent discretization creates intervals with approximately the same number of members. Equisize discretization creates intervals based on minimum support.
 * `-b`, `--bins`: Number of bins (intervals) to generate. Required for `equidistance` and `equifrequency` methods.
 * `-s`, `--min-support`: Minimum support required for a generated interval. Required for `equisize` method.
 * `-g`, `--graph`: IRI or URN of the named graph to which intervals will be loaded.
@@ -72,6 +72,10 @@ The generated intervals are represented as instances of [`schema:QuantitativeVal
 ```
 
 The intervals are loaded into a named graph provided via the `--graph` parameter. If this parameter is missing, the tool attempts to guess a named graph to load the interval to. It uses the graph specified by `WITH`, `USING`, or in the `INSERT` clause. If no graph is found, the tool asks you to provide it explicitly via `--graph`.
+
+## Caveats
+
+Virtuoso has an [issue](https://github.com/openlink/virtuoso-opensource/issues/114) with keeping the precision of `xsd:decimal`. As a result of the precision loss, some decimal numbers may end up not being discretized. If that happens, consider switching to another RDF store that implements `xsd:decimal` correctly.
 
 ## Acknowledgements
 

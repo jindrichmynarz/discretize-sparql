@@ -1,6 +1,7 @@
 (ns discretize-sparql.spec
   (:require [sparclj.core :as sparql]
-            [clojure.spec :as s])
+            [clojure.spec :as s]
+            [clojure.java.io :as io])
   (:import (java.io File)
            (org.apache.commons.validator.routines UrlValidator)))
 
@@ -12,6 +13,9 @@
   (let [validator (UrlValidator. UrlValidator/ALLOW_LOCAL_URLS)]
     (fn [url]
       (.isValid validator url))))
+
+(s/def ::positive-int->1
+  (s/and ::positive-int (partial < 1)))
 
 ; Reusable specs
 
@@ -34,14 +38,14 @@
   boolean?)
 
 (s/def ::bins
-  ::positive-int)
+  ::positive-int->1)
 
 (s/def ::method
   #{:equidistance :equifrequency :equisize})
 
 (s/def ::min-support
-  (s/or :relative-support (s/and double? (partial <= 0) (partial >= 1))
-        :absolute-support integer?))
+  (s/or :relative-support (s/and double? (partial < 0) (partial > 1))
+        :absolute-support ::positive-int->1))
 
 (s/def ::operation
   (partial instance? File))
