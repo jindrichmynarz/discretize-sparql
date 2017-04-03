@@ -6,7 +6,7 @@ This tool wraps the [EasyMiner-Discretization](https://github.com/KIZI/EasyMiner
 
 ## Usage
 
-Use a released executable or compile using [Leiningen](http://leiningen.org) and [lein-binplus](https://github.com/BrunoBonacci/lein-binplus):
+Use a [released executable](https://github.com/jindrichmynarz/discretize-sparql/releases) or compile using [Leiningen](http://leiningen.org) and [lein-binplus](https://github.com/BrunoBonacci/lein-binplus):
 
 ```sh
 git clone https://github.com/jindrichmynarz/discretize-sparql.git
