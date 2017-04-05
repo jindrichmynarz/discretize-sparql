@@ -30,3 +30,7 @@
   (let [test-fn (comp core/has-value-variable? parse-operation)]
     (is (test-fn "valid_update.ru") "Valid operation projects ?value variable.")
     (is (not (test-fn "missing_value.ru")) "Missing ?value in WHERE is invalid.")))
+
+(deftest round-to-precision
+  (is (core/round-to-precision #(Math/floor %) 13 0.00262335315960871) 0.0026233531596)
+  (is (core/round-to-precision #(Math/ceil %) 13 0.9933566926437779) 0.9933566926438))

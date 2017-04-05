@@ -147,7 +147,7 @@
   [intervals]
   (map (fn [interval] (assoc interval :urn (uuid))) intervals))
 
-(defn- round-to-precision
+(defn round-to-precision
   "Round number `n` to `precision` using `round-fn`."
   [round-fn precision n]
   (let [quotient (Math/pow 10 precision)]
