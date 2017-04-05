@@ -1,4 +1,4 @@
-(defproject discretize-sparql "0.1.0"
+(defproject discretize-sparql "0.1.1"
   :description "Discretize numeric literals in RDF from a SPARQL endpoint"
   :url "http://github.com/jindrichmynarz/discretize-sparql"
   :license {:name "Eclipse Public License"
