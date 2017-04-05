@@ -75,7 +75,7 @@ The intervals are loaded into a named graph provided via the `--graph` parameter
 
 ## Caveats
 
-Virtuoso has an [issue](https://github.com/openlink/virtuoso-opensource/issues/114) with keeping the precision of `xsd:decimal`. As a result of the precision loss, some decimal numbers may end up not being discretized. If that happens, consider switching to another RDF store that implements `xsd:decimal` correctly.
+Virtuoso has an [issue](https://github.com/openlink/virtuoso-opensource/issues/114) with keeping the precision of `xsd:decimal`. As a result of the precision loss, some decimal numbers may end up not being discretized. In order to avoid this issue, the tool rounds the bounds of intervals to the maximum decimal precision supported by Virtuoso in `xsd:decimal`.
 
 ## Acknowledgements
 

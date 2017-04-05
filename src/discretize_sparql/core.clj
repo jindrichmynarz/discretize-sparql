@@ -147,6 +147,25 @@
   [intervals]
   (map (fn [interval] (assoc interval :urn (uuid))) intervals))
 
+(defn- round-to-precision
+  "Round number `n` to `precision` using `round-fn`."
+  [round-fn precision n]
+  (let [quotient (Math/pow 10 precision)]
+    (/ (round-fn (* n quotient)) quotient)))
+
+(defn round-intervals
+  "Round `intervals` for Virtuoso to its maximum supported precision.
+  Virtuoso support 13 decimal digits in xsd:decimal."
+  [intervals]
+  (let [floor (partial round-to-precision #(Math/floor %) 13)
+        ceil (partial round-to-precision #(Math/ceil %) 13)
+        round-interval (fn [{[left right] :interval
+                             :as interval}]
+                         (assoc interval :interval [(floor left) (ceil right)]))]
+    (if (::sparql/virtuoso? endpoint)
+      (map round-interval intervals)
+      intervals)))
+
 (defn ^ElementData intervals->values
   "Convert `intervals` to VALUES bindings."
   [intervals]
@@ -227,13 +246,6 @@
          (UpdateDataInsert.)
          str)))
 
-(defn- discretize-mock
-  "Mock discretization for testing."
-  [_ values]
-  [{:interval [(apply min values) (apply max values)]
-    :left-closed true
-    :right-closed true}])
-
 (defn discretize
   "Run discretization of values from a SPARQL endpoint."
   [{::spec/keys [graph method operation strict?]
@@ -244,7 +256,10 @@
     (when (and strict? (not (all-values-numeric? parsed-operation)))
       (throw+ {:type ::util/not-all-values-numeric}))
     (let [values (get-values parsed-operation ::sparql/parallel? parallel?)
-          intervals (add-uuids (discretize/discretize config values))
+          intervals (-> config
+                        (discretize/discretize values)
+                        add-uuids
+                        round-intervals)
           update-intervals (get-update-to-intervals parsed-operation intervals)
           insert-intervals (intervals->insert-data parsed-operation intervals :graph graph)]
       (sparql/update-operation endpoint update-intervals)
