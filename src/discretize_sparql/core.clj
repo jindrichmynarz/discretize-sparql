@@ -261,6 +261,6 @@
                         add-uuids
                         round-intervals)
           update-intervals (get-update-to-intervals parsed-operation intervals)
-          insert-intervals (intervals->insert-data parsed-operation intervals :graph graph)]
+          insert-intervals (intervals->insert-data parsed-operation intervals ::spec/graph graph)]
       (sparql/update-operation endpoint update-intervals)
       (sparql/update-operation endpoint insert-intervals))))
