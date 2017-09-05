@@ -224,7 +224,7 @@
    intervals
    & {::spec/keys [graph]}]
   (let [insert-quads (.getInsertQuads operation)
-        graph' (cond graph graph
+        graph' (cond graph (NodeFactory/createURI graph)
                      (instance? UpdateWithUsing operation) (.getWithIRI operation)
                      (seq insert-quads) (.getGraph (first insert-quads))
                      :else (throw+ {:type ::util/missing-graph}))
